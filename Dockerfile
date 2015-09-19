@@ -26,6 +26,9 @@ RUN mkdir /opt/hbase && \
 # need this for hbase to run
 ENV JAVA_HOME /usr
 
+# For nano to work properly
+ENV TERM=xterm
+
 # zookeeper
 EXPOSE 2181
 # HBase Master API port

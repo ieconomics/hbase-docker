@@ -52,8 +52,11 @@ VOLUME /data
 COPY start.sh start.sh
 #CMD ["/bin/sh", "start.sh"]
 
+COPY tsdb-tables.sh tsdb-tables.sh
+
 ADD supervisord.conf  /etc/
 CMD [ "supervisord" ]
+
 
 # Launch HBASE on Container Start
 # CMD ["hbase", "master", "start"]

@@ -1,3 +1,5 @@
+#!/bin/bash 
+
 echo 'Starting HBASE'
 /opt/hbase/bin/start-hbase.sh
 

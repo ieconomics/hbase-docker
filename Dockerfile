@@ -43,9 +43,14 @@ EXPOSE 60030
 # Add HBASE to path
 ENV PATH /opt/hbase/bin:$PATH
 
-COPY start.sh start.sh
-CMD ["/bin/sh", "start.sh"]
+VOLUME /data
 
+
+COPY start.sh start.sh
+#CMD ["/bin/sh", "start.sh"]
+
+ADD supervisord.conf  /etc/
+CMD [ "supervisord" ]
 
 # Launch HBASE on Container Start
 # CMD ["hbase", "master", "start"]

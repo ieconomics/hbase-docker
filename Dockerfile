@@ -40,6 +40,9 @@ EXPOSE 60020
 # HBase Regionserver web UI
 EXPOSE 60030
 
+# Supervisor
+EXPOSE 9001
+
 # Add HBASE to path
 ENV PATH /opt/hbase/bin:$PATH
 

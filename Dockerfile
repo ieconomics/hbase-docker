@@ -18,7 +18,7 @@ RUN \
 
 # install hbase
 RUN mkdir /opt/hbase && \ 
-    curl http://apache.org/dist/hbase/hbase-0.98.9/hbase-0.98.9-hadoop2-bin.tar.gz | tar xz && \
+    curl http://apache.org/dist/hbase/0.98.14/hbase-0.98.14-hadoop2-bin.tar.gz | tar xz && \
     mv hbase-0.98.9-hadoop2/* /opt/hbase
 
 # ADD hbase-site.xml /etc/hbase/conf/hbase-site.xml

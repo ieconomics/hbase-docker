@@ -41,7 +41,7 @@ EXPOSE 60030
 ENV PATH /opt/hbase/bin:$PATH
 
 COPY start.sh start.sh
-CMD ["/bin/bash", "start.sh"]
+CMD ["/bin/sh", "start.sh"]
 
 
 # Launch HBASE on Container Start

@@ -6,7 +6,7 @@ MAINTAINER antonio@tradingeconomics.com
 ENV DEBIAN_FRONTEND noninteractive
 RUN \
   apt-get update && \
-  apt-get install -y python-software-properties software-properties-common curl nano supervisor
+  apt-get install -y python-software-properties software-properties-common curl nano
 
 # install java
 RUN \
@@ -49,13 +49,14 @@ ENV PATH /opt/hbase/bin:$PATH
 VOLUME /data
 
 COPY start.sh start.sh
-#CMD ["/bin/sh", "start.sh"]
+CMD ["/bin/sh", "start.sh"]
 
 COPY tsdb-tables.sh tsdb-tables.sh
+# THIS IS REQUIRED WHEN WE DO NOT USE CMD
+RUN chmod +x tsdb-tables.sh
 
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-CMD [ "/usr/bin/supervisord" ]
-
+#COPY supervisord.conf /etc/supervisord.conf
+#CMD [ "/usr/bin/supervisord" ]
 
 # Launch HBASE on Container Start
 # CMD ["hbase", "master", "start"]

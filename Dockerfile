@@ -48,14 +48,13 @@ ENV PATH /opt/hbase/bin:$PATH
 
 VOLUME /data
 
-
 COPY start.sh start.sh
 #CMD ["/bin/sh", "start.sh"]
 
 COPY tsdb-tables.sh tsdb-tables.sh
 
-ADD supervisord.conf  /etc/
-CMD [ "supervisord" ]
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD [ "/usr/bin/supervisord" ]
 
 
 # Launch HBASE on Container Start

@@ -56,7 +56,7 @@ COPY start-tsdb.sh start-tsdb.sh
 COPY create-tsdb-tables.sh create-tsdb-tables.sh
 
 # THIS IS REQUIRED ONLY WHEN WE DO NOT USE CMD
-RUN chmod +x start-hbase,sh
+RUN chmod +x start-hbase.sh
 RUN chmod +x start-tsdb.sh
 RUN chmod +x create-tsdb-tables.sh
 

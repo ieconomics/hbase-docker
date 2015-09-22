@@ -40,6 +40,9 @@ EXPOSE 60020
 # HBase Regionserver web UI
 EXPOSE 60030
 
+# TSDB
+EXPOSE 4242
+
 # Supervisor
 EXPOSE 9001
 
@@ -48,16 +51,23 @@ ENV PATH /opt/hbase/bin:$PATH
 
 VOLUME /data
 
-COPY start.sh start.sh
-CMD ["/bin/sh", "start.sh"]
+COPY start-hbase.sh start-hbase.sh
+COPY start-tsdb.sh start-tsdb.sh
+COPY create-tsdb-tables.sh create-tsdb-tables.sh
 
-COPY tsdb-tables.sh tsdb-tables.sh
-# THIS IS REQUIRED WHEN WE DO NOT USE CMD
-RUN chmod +x tsdb-tables.sh
+# THIS IS REQUIRED ONLY WHEN WE DO NOT USE CMD
+RUN chmod +x start-hbase,sh
+RUN chmod +x start-tsdb.sh
+RUN chmod +x create-tsdb-tables.sh
 
-#COPY supervisord.conf /etc/supervisord.conf
-#CMD [ "/usr/bin/supervisord" ]
 
+CMD ["/bin/sh", "start-hbase.sh"]
+
+CMD ["/bin/sh", "start-tsdb.sh"]
+
+
+# COPY supervisord.conf /etc/supervisord.conf
+# CMD [ "/usr/bin/supervisord" ]
 # Launch HBASE on Container Start
 # CMD ["hbase", "master", "start"]
 # CMD ["/opt/hbase/bin/hbase", "master", "start"]

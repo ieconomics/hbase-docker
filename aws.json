@@ -1,0 +1,89 @@
+{
+  "family": "HBASE",
+  "containerDefinitions": [
+    {
+      "name": "hbase-data",
+      "image": "antoniojfsousa/hbase-docker:latest",
+      "cpu": 128,
+      "memory": 256,
+      "entryPoint": [],
+      "environment": [],
+      "command": [
+        "/bin/true"
+      ],
+      "portMappings": [],
+      "volumesFrom": [],
+      "links": [],
+      "mountPoints": [
+        {
+          "sourceVolume": "data-volume",
+          "containerPath": "/data",
+          "readOnly": false
+        }
+      ],
+      "essential": false
+    },
+    {
+      "name": "hbase",
+      "image": "antoniojfsousa/hbase-docker:latest",
+      "cpu": 256,
+      "memory": 1024,
+      "entryPoint": [],
+      "environment": [
+        {
+          "name": "HBASE_HOME",
+          "value": "/opt/hbase"
+        },
+        {
+          "name": "COMPRESSION",
+          "value": "NONE"
+        }
+      ],
+      "command": [],
+      "portMappings": [
+        {
+          "hostPort": 60000,
+          "containerPort": 60000,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 60010,
+          "containerPort": 60010,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 60020,
+          "containerPort": 60020,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 60030,
+          "containerPort": 60030,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 2181,
+          "containerPort": 2181,
+          "protocol": "tcp"
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "hbase-data",
+          "readOnly": false
+        }
+      ],
+      "links": [],
+      "mountPoints": [],
+      "essential": true
+    }
+  ],
+  "volumes": [
+    {
+      "name": "data-volume",
+      "host": {
+        "sourcePath": "/data"
+      }
+    }
+  ]
+}

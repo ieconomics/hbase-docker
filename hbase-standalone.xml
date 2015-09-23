@@ -1,0 +1,6 @@
+<configuration>
+ <property>
+    <name>hbase.rootdir</name>
+    <value>file:///data/hbase</value>
+  </property>
+</configuration>

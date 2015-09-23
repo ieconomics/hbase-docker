@@ -57,20 +57,17 @@ ENV PATH /opt/hbase/bin:$PATH
 
 VOLUME /data
 
-COPY start-hbase.sh start-hbase.sh
-COPY start-tsdb.sh start-tsdb.sh
-COPY create-tsdb-tables.sh create-tsdb-tables.sh
+ADD start-hbase.sh start-hbase.sh
+ADD start-tsdb.sh start-tsdb.sh
+ADD create-tsdb-tables.sh create-tsdb-tables.sh
 
 # THIS IS REQUIRED ONLY WHEN WE DO NOT USE CMD
 RUN chmod +x start-hbase.sh
 RUN chmod +x start-tsdb.sh
 RUN chmod +x create-tsdb-tables.sh
 
-
 CMD ["/bin/sh", "start-hbase.sh"]
-
-# CMD ["/bin/sh", "start-tsdb.sh"]
-
+CMD ["/bin/sh", "start-tsdb.sh"]
 
 # COPY supervisord.conf /etc/supervisord.conf
 # CMD [ "/usr/bin/supervisord" ]

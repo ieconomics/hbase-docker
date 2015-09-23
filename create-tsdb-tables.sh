@@ -1,14 +1,10 @@
 #!/bin/bash 
-
-echo 'CREATE TSDB TABLES'
-
-echo 'MAKE A PAUSE TO ALLOW HBASE TO START'
-sleep 10
-
 echo 'CREATING TABLES'
 export HBASE_HOME=/opt/hbase
 export COMPRESSION=NONE
-curl -s https://raw.githubusercontent.com/OpenTSDB/opentsdb/master/src/create_table.sh | bash
+if [ ! -e opentsdb_tables_created.txt ]; then
+	curl -s https://raw.githubusercontent.com/OpenTSDB/opentsdb/master/src/create_table.sh | bash
+	echo 'Mark TSDB Tables as Created'
+	touch opentsdb_tables_created.txt
+fi
 
-echo 'Mark TSDB Tables as Created'
-touch /opt/opentsdb_tables_created.txt

@@ -23,6 +23,12 @@ RUN mkdir /opt/hbase && \
 
 ADD hbase-site.xml /opt/hbase/conf/hbase-site.xml
 
+# INSTALL TSDB
+# ADD https://github.com/OpenTSDB/opentsdb/releases/download/v2.1.0RC1/opentsdb-2.1.0RC1_all.deb /tmp/opentsdb.deb
+ADD https://github.com/ieconomics/opentsdb/blob/next/opentsdb.deb?raw=true /tmp/opentsdb.deb
+RUN dpkg -i /tmp/opentsdb.deb
+RUN rm /tmp/opentsdb.deb
+
 # need this for hbase to run
 ENV JAVA_HOME /usr
 
@@ -63,7 +69,7 @@ RUN chmod +x create-tsdb-tables.sh
 
 CMD ["/bin/sh", "start-hbase.sh"]
 
-CMD ["/bin/sh", "start-tsdb.sh"]
+# CMD ["/bin/sh", "start-tsdb.sh"]
 
 
 # COPY supervisord.conf /etc/supervisord.conf

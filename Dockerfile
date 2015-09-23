@@ -1,20 +1,5 @@
-## hbase standalone
-FROM ubuntu
+FROM ieconomics/ubuntu-docker
 MAINTAINER antonio@tradingeconomics.com
-
-# install requirements
-ENV DEBIAN_FRONTEND noninteractive
-RUN \
-  apt-get update && \
-  apt-get install -y python-software-properties software-properties-common curl nano
-
-# install java
-RUN \
-  echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java7-installer
 
 # install hbase
 RUN mkdir /opt/hbase && \ 
@@ -22,12 +7,6 @@ RUN mkdir /opt/hbase && \
     mv hbase-0.98.14-hadoop2/* /opt/hbase
 
 ADD hbase-site.xml /opt/hbase/conf/hbase-site.xml
-
-# need this for hbase to run
-ENV JAVA_HOME /usr
-
-# For nano to work properly
-ENV TERM=xterm
 
 # zookeeper
 EXPOSE 2181
@@ -46,10 +25,14 @@ ENV PATH /opt/hbase/bin:$PATH
 VOLUME /data
 
 ADD start.sh start.sh
+RUN chmod +x start.sh
+
+ADD supervisord.conf /etc/supervisord.conf
 
 # TSDB TABLES
 ADD create-tsdb-tables.sh create-tsdb-tables.sh
 RUN chmod +x create-tsdb-tables.sh
 
 # STARTING COMMAND
-CMD ["/bin/sh", "start.sh"]
+# CMD ["/bin/sh", "start.sh"]
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]

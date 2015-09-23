@@ -23,12 +23,6 @@ RUN mkdir /opt/hbase && \
 
 ADD hbase-site.xml /opt/hbase/conf/hbase-site.xml
 
-# INSTALL TSDB
-# ADD https://github.com/OpenTSDB/opentsdb/releases/download/v2.1.0RC1/opentsdb-2.1.0RC1_all.deb /tmp/opentsdb.deb
-ADD https://github.com/ieconomics/opentsdb/blob/next/opentsdb.deb?raw=true /tmp/opentsdb.deb
-RUN dpkg -i /tmp/opentsdb.deb
-RUN rm /tmp/opentsdb.deb
-
 # need this for hbase to run
 ENV JAVA_HOME /usr
 
@@ -46,33 +40,16 @@ EXPOSE 60020
 # HBase Regionserver web UI
 EXPOSE 60030
 
-# TSDB
-EXPOSE 4242
-
-# Supervisor
-EXPOSE 9001
-
 # Add HBASE to path
 ENV PATH /opt/hbase/bin:$PATH
 
 VOLUME /data
 
-ADD start-hbase.sh start-hbase.sh
-ADD start-tsdb.sh start-tsdb.sh
-ADD create-tsdb-tables.sh create-tsdb-tables.sh
+ADD start.sh start.sh
 
-# THIS IS REQUIRED ONLY WHEN WE DO NOT USE CMD
-RUN chmod +x start-hbase.sh
-RUN chmod +x start-tsdb.sh
+# TSDB TABLES
+ADD create-tsdb-tables.sh create-tsdb-tables.sh
 RUN chmod +x create-tsdb-tables.sh
 
-CMD ["/bin/sh", "start-hbase.sh"]
-CMD ["/bin/sh", "start-tsdb.sh"]
-
-# COPY supervisord.conf /etc/supervisord.conf
-# CMD [ "/usr/bin/supervisord" ]
-# Launch HBASE on Container Start
-# CMD ["hbase", "master", "start"]
-# CMD ["/opt/hbase/bin/hbase", "master", "start"]
-# CMD ["/bin/sh", "/opt/hbase/bin/start-hbase.sh"]
-
+# STARTING COMMAND
+CMD ["/bin/sh", "start.sh"]

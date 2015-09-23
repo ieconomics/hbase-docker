@@ -1,45 +1,37 @@
 {
-  "family": "HBASE",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:001955629568:task-definition/HBASE:15",
+  "status": "ACTIVE",
+  "revision": 15,
   "containerDefinitions": [
     {
-      "name": "hbase-data",
-      "image": "antoniojfsousa/hbase-docker:latest",
-      "cpu": 128,
-      "memory": 256,
-      "entryPoint": [],
-      "environment": [],
+      "volumesFrom": [],
+      "portMappings": [],
       "command": [
         "/bin/true"
       ],
-      "portMappings": [],
-      "volumesFrom": [],
+      "environment": [],
+      "essential": false,
+      "entryPoint": [],
       "links": [],
       "mountPoints": [
         {
-          "sourceVolume": "data-volume",
           "containerPath": "/data",
+          "sourceVolume": "data-volume",
           "readOnly": false
         }
       ],
-      "essential": false
+      "memory": 256,
+      "name": "hbase-data",
+      "cpu": 128,
+      "image": "ieconomics/hbase-docker:latest"
     },
     {
-      "name": "hbase",
-      "image": "antoniojfsousa/hbase-docker:latest",
-      "cpu": 256,
-      "memory": 1024,
-      "entryPoint": [],
-      "environment": [
+      "volumesFrom": [
         {
-          "name": "HBASE_HOME",
-          "value": "/opt/hbase"
-        },
-        {
-          "name": "COMPRESSION",
-          "value": "NONE"
+          "readOnly": false,
+          "sourceContainer": "hbase-data"
         }
       ],
-      "command": [],
       "portMappings": [
         {
           "hostPort": 60000,
@@ -67,23 +59,34 @@
           "protocol": "tcp"
         }
       ],
-      "volumesFrom": [
+      "command": [],
+      "environment": [
         {
-          "sourceContainer": "hbase-data",
-          "readOnly": false
+          "name": "HBASE_HOME",
+          "value": "/opt/hbase"
+        },
+        {
+          "name": "COMPRESSION",
+          "value": "NONE"
         }
       ],
+      "essential": true,
+      "entryPoint": [],
       "links": [],
       "mountPoints": [],
-      "essential": true
+      "memory": 1024,
+      "name": "hbase",
+      "cpu": 256,
+      "image": "ieconomics/hbase-docker:latest"
     }
   ],
   "volumes": [
     {
-      "name": "data-volume",
       "host": {
         "sourcePath": "/data"
-      }
+      },
+      "name": "data-volume"
     }
-  ]
+  ],
+  "family": "HBASE"
 }

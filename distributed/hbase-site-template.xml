@@ -11,6 +11,6 @@
   </property>
     <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>localhost</value>
+    <value>ZK</value>
   </property>
 </configuration>
